@@ -1,0 +1,93 @@
+create database liber
+
+create table gen(
+	nome varchar(50) not null,
+    statusGen int not null,
+    genID int primary key AUTO_INCREMENT
+)
+
+create table liv(
+	nome varchar(255) not null,
+    statusLiv int not null,
+    pathLiv varchar(255) not null,
+    insertDate varchar(20) not null,
+    modDate varchar(20) ,
+    fkGen int not null,
+    FOREIGN key (fkGen) REFERENCES gen(genID),
+    livID int PRIMARY key AUTO_INCREMENT
+)
+
+create TABLE img(
+	pathImg varchar(255) not null,
+    statusImg int not null,
+    insertDate varchar(20) not null,
+    modDate varchar(20) ,
+    imgID int primary key AUTO_INCREMENT
+
+)
+
+create table usuar(
+	email varchar(50) not null,
+    senha varchar(25) not null,
+    nome varchar(50) not null,
+    nomePlum varchar(50),
+    statusUser int not null,
+    insertDate varchar(20) not null,
+    modDate varchar(20),
+    fkImg int not null,
+    FOREIGN key (fkImg) REFERENCES img(imgID),
+    userID int PRIMARY key AUTO_INCREMENT
+)
+
+create table post(
+	titulo varchar(100) not null,
+    texto varchar(255) not null,
+    statusPost int not null,
+    insertDate varchar(20) not null,
+    modDate varchar(20),
+    fkUser int not null,
+    fkLiv int not null,
+    curtir int,
+    FOREIGN key (fkUser) REFERENCES usuar(userID),
+    FOREIGN KEY (fkLiv) REFERENCES liv(livID),
+    postID int PRIMARY key AUTO_INCREMENT
+)
+
+create table coment(
+    textCom varchar(255) not null,
+    statusCom int not null,
+    insertDate varchar(20) not null,
+    modDate varchar(20),
+    fkUserCom int not null,
+    fkPostCom int not null,
+    FOREIGN key (fkUserCom) REFERENCES usuar(userID),
+    FOREIGN key (fkPostCom) REFERENCES post(postID),
+    comID int PRIMARY KEY AUTO_INCREMENT
+)
+
+create table fav(
+	fkFavPos int not null,
+    fkFavUse int not null,
+    FOREIGN key (fkFavUse) REFERENCES usuar(userID),
+    FOREIGN KEY (fkFavPos) REFERENCES post(postid),
+    statusFav int not null,
+    favID int PRIMARY key AUTO_INCREMENT
+)
+
+create table genPos (
+	fkPos int not null,
+    fkGen int not null,
+    status int not null,
+    genPos int PRIMARY key AUTO_INCREMENT
+
+)
+
+create table posImg (
+	fkPost int not null,
+    fkImg int not null,
+    statusPosImg int not null,
+    FOREIGN key (fkPost) REFERENCES post(postID),
+    FOREIGN KEY (fkImg) REFERENCES img(imgID),
+    posImgID int PRIMARY key AUTO_INCREMENT
+
+)
